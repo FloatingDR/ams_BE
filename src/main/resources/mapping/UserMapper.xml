@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.cafuc.flyeat.sb.dormitorymanagement.mapper.UserMapper" >
+   <resultMap id="BaseResultMap" type="cn.cafuc.flyeat.sb.dormitorymanagement.model.User">
+       <id column="user_id" jdbcType="INTEGER" property="userId"></id>
+       <result column="supervisor_id" jdbcType="VARCHAR" property="supervosprId"></result>
+       <result column="instructor_id" jdbcType="VARCHAR" property="instructorId"></result>
+       <result column="student_id" jdbcType="VARCHAR" property="studentId"></result>
+       <result column="account" jdbcType="VARCHAR" property="account"></result>
+       <result column="password" jdbcType="VARCHAR" property="password"></result>
+   </resultMap>
+    <select id="selectByAccount" parameterType="String" resultMap="BaseResultMap">
+        select * from user where account=#{account}
+    </select>
+    <update id="changePass">
+        update user
+        <set>
+            password=#{pass}
+        </set>
+        where account=#{name}
+    </update>
+    <insert id="insert" parameterType="cn.cafuc.flyeat.sb.dormitorymanagement.model.User">
+        insert into user (user_id,supervisor_id,instructor_id,student_id,account,password)
+        values (#{userId},#{supervisorId},#{instructorId},#{studentId},#{account},#{password})
+    </insert>
+</mapper>

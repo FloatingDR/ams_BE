@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cafuc.flyeat.sb.dormitorymanagement.mapper.RoomMapper">
+  <resultMap id="BaseResultMap" type="cn.cafuc.flyeat.sb.dormitorymanagement.model.Room">
+    <result column="room_id" jdbcType="INTEGER" property="roomId" />
+    <result column="building_id" jdbcType="INTEGER" property="buildingId" />
+    <result column="notice_id" jdbcType="INTEGER" property="noticeId" />
+    <result column="room_property_id" jdbcType="INTEGER" property="roomPropertyId" />
+    <result column="floor_number" jdbcType="INTEGER" property="floorNumber" />
+    <result column="room_number" jdbcType="VARCHAR" property="roomNumber" />
+    <result column="number_of_bunk" jdbcType="INTEGER" property="numberOfBunk" />
+  </resultMap>
+  <select id="getRoomByBuildingId" parameterType="Integer" resultMap="BaseResultMap">
+    select * from room where building_id=#{BuildingId} ORDER BY floor_number ASC,room_number ASC
+  </select>
+  <select id="getId" resultType="Integer">
+    select IFNULL(MAX(room_id),-1) from room where building_id=#{buildId} and room_number=#{num}
+  </select>
+  <select id="getRoom" parameterType="Integer" resultMap="BaseResultMap">
+    select * from room where building_id=#{buildingId} order by room_number ASC
+  </select>
+  <select id="getRoomIdByNum" resultMap="BaseResultMap">
+    select * from room where building_id=#{buildId} and room_number=#{roomNum}
+  </select>
+  <select id="getById" parameterType="Integer" resultMap="BaseResultMap">
+    select * from room where room_id=#{id}
+  </select>
+  <insert id="insert" parameterType="cn.cafuc.flyeat.sb.dormitorymanagement.model.Room">
+    insert into room (room_id, building_id, notice_id,
+      room_property_id, floor_number, room_number,
+      number_of_bunk)
+    values (#{roomId,jdbcType=INTEGER}, #{buildingId,jdbcType=INTEGER}, #{noticeId,jdbcType=INTEGER},
+      #{roomPropertyId,jdbcType=INTEGER}, #{floorNumber,jdbcType=INTEGER}, #{roomNumber,jdbcType=VARCHAR},
+      #{numberOfBunk,jdbcType=INTEGER})
+  </insert>
+   <select id="getRoomId" resultMap="BaseResultMap">
+     select * from room where building_id=#{buildingId} and floor_number=#{floorNum}
+   </select>
+</mapper>

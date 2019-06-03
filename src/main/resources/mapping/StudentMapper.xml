@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cafuc.flyeat.sb.dormitorymanagement.mapper.StudentMapper">
+  <resultMap id="BaseResultMap" type="cn.cafuc.flyeat.sb.dormitorymanagement.model.Student">
+    <id column="student_id" jdbcType="INTEGER" property="studentId" />
+    <result column="bunk_id" jdbcType="INTEGER" property="bunkId" />
+    <result column="instructor_id" jdbcType="INTEGER" property="instructorId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="student_number" jdbcType="VARCHAR" property="studentNumber" />
+    <result column="gender" jdbcType="BIT" property="gender" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="grade" jdbcType="VARCHAR" property="grade" />
+    <result column="student_class" jdbcType="VARCHAR" property="studentClass" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="place" jdbcType="VARCHAR" property="place" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="identify_number" jdbcType="VARCHAR" property="identifyNumber" />
+  </resultMap>
+  <delete id="deleteByRoomId" parameterType="Integer">
+    delete student.* from student,bunk where student.bunk_id=bunk.bunk_id and bunk.room_id=#{roomId}
+  </delete>
+  <update id="update" >
+    update student
+    <set>
+      bunk_id=#{bunkId}
+    </set>
+    where student_id=#{id}
+  </update>
+  <select id="getByBunk" parameterType="Integer" resultMap="BaseResultMap">
+    select * from student where bunk_id=#{bunkId}
+  </select>
+  <select id="getMajor" resultType="String">
+    select DISTINCT major from student
+  </select>
+  <select id="getAll" resultMap="BaseResultMap">
+    select * from student where bunk_id!=null
+  </select>
+  <select id="selectByMajor" parameterType="String" resultMap="BaseResultMap">
+    select * from student where major=#{major}
+  </select>
+  <select id="selectBySchool" parameterType="String" resultMap="BaseResultMap">
+    select * from student where school=#{school}
+  </select>
+  <delete id="deleteByBunkId" parameterType="Integer">
+    delete from student where bunk_id=#{bunkId,jdbcType=INTEGER}
+  </delete>
+  <select id="getByNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from student where student_number=#{num}
+  </select>
+  <insert id="insert" parameterType="cn.cafuc.flyeat.sb.dormitorymanagement.model.Student">
+    insert into student (student_id, bunk_id, instructor_id, 
+      name, student_number, gender, 
+      school, major, grade, 
+      student_class, nation, place, 
+      tel, photo, status, 
+      identify_number)
+    values (#{studentId,jdbcType=INTEGER}, #{bunkId,jdbcType=INTEGER}, #{instructorId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{studentNumber,jdbcType=VARCHAR}, #{gender,jdbcType=BIT}, 
+      #{school,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, 
+      #{studentClass,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, #{place,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{identifyNumber,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.cafuc.flyeat.sb.dormitorymanagement.model.Student">
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="bunkId != null">
+        bunk_id,
+      </if>
+      <if test="instructorId != null">
+        instructor_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="studentNumber != null">
+        student_number,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="studentClass != null">
+        student_class,
+      </if>
+      <if test="nation != null">
+        nation,
+      </if>
+      <if test="place != null">
+        place,
+      </if>
+      <if test="tel != null">
+        tel,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="identifyNumber != null">
+        identify_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="studentId != null">
+        #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="bunkId != null">
+        #{bunkId,jdbcType=INTEGER},
+      </if>
+      <if test="instructorId != null">
+        #{instructorId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="studentNumber != null">
+        #{studentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=BIT},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="studentClass != null">
+        #{studentClass,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="place != null">
+        #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="identifyNumber != null">
+        #{identifyNumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.cafuc.flyeat.sb.dormitorymanagement.mapper.BunkMapper" >
+  <resultMap id="BaseResultMap" type="cn.cafuc.flyeat.sb.dormitorymanagement.model.Bunk" >
+    <result column="bunk_id" property="bunkId" jdbcType="INTEGER" />
+    <result column="room_id" property="roomId" jdbcType="INTEGER" />
+    <result column="bunk_number" property="bunkNumber" jdbcType="VARCHAR" />
+    <result column="is_empty_bunk" property="isEmptyBunk" jdbcType="BIT" />
+    <result column="person_id" property="personId" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="cn.cafuc.flyeat.sb.dormitorymanagement.model.Bunk" >
+    insert into bunk (bunk_id, room_id, bunk_number, 
+      is_empty_bunk, person_id)
+    values (#{bunkId,jdbcType=INTEGER}, #{roomId,jdbcType=INTEGER}, #{bunkNumber,jdbcType=VARCHAR},
+      #{isEmptyBunk,jdbcType=BIT}, #{personId,jdbcType=INTEGER})
+  </insert>
+  <select id="getByRoom" parameterType="Integer" resultMap="BaseResultMap">
+    select * from bunk where room_id=#{roomId} order by bunk_number ASC
+  </select>
+<select id="getByRoomId" resultType="Integer">
+   select IFNULL(MAX(bunk_id),-1) from bunk
+   where room_id=#{roomId} and bunk_number="${bunkNum}"
+</select>
+  <update id="empty" parameterType="Integer">
+    update bunk
+    <set>
+      is_empty_bunk=true
+    </set>
+    where room_id=#{roomId}
+  </update>
+  <update id="add" parameterType="Integer">
+    update bunk
+    <set>
+      is_empty_bunk=false
+    </set>
+    where bunk_id=#{id}
+  </update>
+  <select id="getBunk" resultMap="BaseResultMap">
+    select * from bunk where room_id=#{roomId} and  bunk_number=#{bunkNum};
+  </select>
+  <select id="getById" parameterType="Integer" resultMap="BaseResultMap">
+    select * from  bunk where bunk_id=#{id}
+  </select>
+  <insert id="insertSelective" parameterType="cn.cafuc.flyeat.sb.dormitorymanagement.model.Bunk" >
+    insert into bunk
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bunkId != null" >
+        bunk_id,
+      </if>
+      <if test="roomId != null" >
+        room_id,
+      </if>
+      <if test="bunkNumber != null" >
+        bunk_number,
+      </if>
+      <if test="isEmptyBunk != null" >
+        is_empty_bunk,
+      </if>
+      <if test="personId != null" >
+        person_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bunkId != null" >
+        #{bunkId,jdbcType=INTEGER},
+      </if>
+      <if test="roomId != null" >
+        #{roomId,jdbcType=INTEGER},
+      </if>
+      <if test="bunkNumber != null" >
+        #{bunkNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isEmptyBunk != null" >
+        #{isEmptyBunk,jdbcType=BIT},
+      </if>
+      <if test="personId != null" >
+        #{personId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="emptyByBunk">
+    update bunk set is_empty_bunk = true where bunk_id=#{id};
+  </update>
+</mapper>

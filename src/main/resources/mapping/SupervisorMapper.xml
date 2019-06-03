@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.cafuc.flyeat.sb.dormitorymanagement.mapper.SupervisorMapper" >
+  <resultMap id="BaseResultMap" type="cn.cafuc.flyeat.sb.dormitorymanagement.model.Supervisor" >
+    <result column="supervisor_id" property="supervisorId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="supervisor_number" property="supervisorNumber" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="BIT" />
+    <result column="place" property="place" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="identify_number" property="identifyNumber" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getAll" resultMap="BaseResultMap">
+        select * from supervisor;
+  </select>
+  <select id="get" parameterType="String" resultMap="BaseResultMap">
+    select * from supervisor where supervisor_number=#{num}
+  </select>
+  <insert id="insert" parameterType="cn.cafuc.flyeat.sb.dormitorymanagement.model.Supervisor" >
+    insert into supervisor (supervisor_id, name, supervisor_number, 
+      gender, place, tel, identify_number
+      )
+    values (#{supervisorId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{supervisorNumber,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=BIT}, #{place,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{identifyNumber,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.cafuc.flyeat.sb.dormitorymanagement.model.Supervisor" >
+    insert into supervisor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="supervisorId != null" >
+        supervisor_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="supervisorNumber != null" >
+        supervisor_number,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="place != null" >
+        place,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="identifyNumber != null" >
+        identify_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="supervisorId != null" >
+        #{supervisorId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorNumber != null" >
+        #{supervisorNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=BIT},
+      </if>
+      <if test="place != null" >
+        #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="identifyNumber != null" >
+        #{identifyNumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

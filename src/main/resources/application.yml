@@ -1,0 +1,32 @@
+debug: false
+
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/bm?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&useSSL=true
+#    url: jdbc:mysql://www.flyeat.com:3306/bm?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&useSSL=true
+#    username: hanganweixin
+#    password: flyeat.2016
+    username: taylor
+    password: taylor
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    prefix: classpath:/templates
+
+
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: cn.cafuc.flyeat.sb.dormitorymanagemet.model
+
+
+Basic: cn.cafuc.flyeat.sb.dormitorymanagement.Handler.Impl.BasicImport
+Stu: cn.cafuc.flyeat.sb.dormitorymanagement.Handler.Impl.StuImport
+Instructor: cn.cafuc.flyeat.sb.dormitorymanagement.Handler.Impl.InstructorImport
+Super: cn.cafuc.flyeat.sb.dormitorymanagement.Handler.Impl.SupervisorImport
+pagehelper:
+  reasonable: true
+  support-methods-arguments: true
+  auto-dialect: mysql
+  params: countSql

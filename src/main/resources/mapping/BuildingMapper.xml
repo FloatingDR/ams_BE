@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.cafuc.flyeat.sb.dormitorymanagement.mapper.BuildingMapper" >
+  <resultMap id="BaseResultMap" type="cn.cafuc.flyeat.sb.dormitorymanagement.model.Building" >
+    <result column="building_id" property="buildingId" jdbcType="INTEGER" />
+    <result column="notice_id" property="noticeId" jdbcType="INTEGER" />
+    <result column="supervisor_id" property="supervisorId" jdbcType="INTEGER" />
+    <result column="building_number" property="buildingNumber" jdbcType="VARCHAR" />
+    <result column="number_of_floor" property="numberOfFloor" jdbcType="INTEGER" />
+    <result column="gender_property" property="genderProperty" jdbcType="BIT" />
+    <result column="region" property="region" jdbcType="BIT" />
+    <result column="style" property="style" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="supervisorMap" type="cn.cafuc.flyeat.sb.dormitorymanagement.model.Supervisor" >
+    <result column="supervisor_id" property="supervisorId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="supervisor_number" property="supervisorNumber" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="BIT" />
+    <result column="place" property="place" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="identify_number" property="identifyNumber" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getInfoById" parameterType="Integer" resultMap="BaseResultMap">
+    select * from building where building_id=#{BuildingId}
+  </select>
+  <select id="getBuildingId" resultType="Integer">
+    select building_id from building
+  </select>
+  <select id="getBuilding" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from building where building_number="${_parameter}"
+  </select>
+  <select id="getBuildingName" resultType="java.lang.String">
+    select building_number from building
+  </select>
+  <select id="getSupervisor" parameterType="Integer" resultMap="supervisorMap">
+    select * from supervisor where supervisor_id=#{supervisorId}
+  </select>
+  <select id="getId" parameterType="String" resultType="Integer">
+    select building_id from building where building_number = "${_parameter}"
+  </select>
+  <insert id="insert" parameterType="cn.cafuc.flyeat.sb.dormitorymanagement.model.Building" >
+    insert into building (building_id, notice_id, supervisor_id, 
+      building_number, number_of_floor, gender_property,
+      region, style)
+    values (#{buildingId,jdbcType=INTEGER}, #{noticeId,jdbcType=INTEGER}, #{supervisorId,jdbcType=INTEGER}, 
+      #{buildingNumber,jdbcType=VARCHAR}, #{numberOfFloor,jdbcType=INTEGER}, #{genderProperty,jdbcType=BIT},
+      #{region,jdbcType=BIT}, #{style,jdbcType=VARCHAR})
+  </insert>
+  <update id="deleteWorker">
+    update building
+    <set>
+      supervisor_id=null
+    </set>
+    where supervisor_id=#{id}
+  </update>
+  <update id="setWorker">
+    update building
+    <set>
+      supervisor_id=#{workerId}
+    </set>
+    where building_number=#{num}
+  </update>
+  <select id="workerContact" parameterType="Integer" resultType="java.lang.String">
+    select building_number from building where supervisor_id=#{workerId}
+  </select>
+<!--  <select id="studentContact" parameterType="Integer" resultType="String">
+    select building_number from building where bu=#{stuId}
+  </select>-->
+  <insert id="insertSelective" parameterType="cn.cafuc.flyeat.sb.dormitorymanagement.model.Building" >
+    insert into building
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="buildingId != null" >
+        building_id,
+      </if>
+      <if test="noticeId != null" >
+        notice_id,
+      </if>
+      <if test="supervisorId != null" >
+        supervisor_id,
+      </if>
+      <if test="buildingNumber != null" >
+        building_number,
+      </if>
+      <if test="numberOfFlloor != null" >
+        number_of_flloor,
+      </if>
+      <if test="genderProperty != null" >
+        gender_property,
+      </if>
+      <if test="region != null" >
+        region,
+      </if>
+      <if test="style != null" >
+        style,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="buildingId != null" >
+        #{buildingId,jdbcType=INTEGER},
+      </if>
+      <if test="noticeId != null" >
+        #{noticeId,jdbcType=INTEGER},
+      </if>
+      <if test="supervisorId != null" >
+        #{supervisorId,jdbcType=INTEGER},
+      </if>
+      <if test="buildingNumber != null" >
+        #{buildingNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="numberOfFlloor != null" >
+        #{numberOfFlloor,jdbcType=INTEGER},
+      </if>
+      <if test="genderProperty != null" >
+        #{genderProperty,jdbcType=BIT},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=BIT},
+      </if>
+      <if test="style != null" >
+        #{style,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
